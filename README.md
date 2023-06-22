@@ -6,13 +6,8 @@ The motivation for this project was to make a text editor for developers that wo
 
 
 ## Table of Contents 
-* [Installation](#installation)
 * [Usage](#usage)
-* [Credits](#credits)
-* [Deployed Application](#deployed-application)
-* [License](#license)
-* [Contribute](#contribute)
-* [Testing](#testing)
+* [Installation](#installation)
 * [Questions](#questions) 
 
 
