@@ -1,30 +1,35 @@
-const butInstall = document.getElementById("buttonInstall");
+const installBtn = document.getElementById('buttonInstall');
+const openBtn = document.getElementById('buttonOpen');
+const textHeader = document.getElementById('textHeader');
 
-window.addEventListener("beforeinstallprompt", (event) => {
-  // Store the triggered events
-  window.deferredPrompt = event;
+window.addEventListener('beforeinstallprompt', (event) => {
+  event.preventDefault();
+  installBtn.style.visibility = 'visible';
+  textHeader.textContent = 'Click the button to install!';
 
-  // Remove the hidden class from the button.
-  butInstall.classList.toggle("hidden", false);
+  installBtn.addEventListener('click', () => {
+    event.prompt();
+    installBtn.setAttribute('disabled', true);
+    installBtn.textContent = 'Installed!';
+  });
 });
 
-butInstall.addEventListener("click", async () => {
-  const promptEvent = window.deferredPrompt;
+window.addEventListener('appinstalled', (event) => {
+    textHeader.textContent = 'Application has been successfully installed! Click the launch icon on the right side of the URL address bar to open the app!';
+    installBtn.style.visibility = 'hidden';
+    console.log('👍', 'appinstalled', event);
+});
 
-  if (!promptEvent) {
-    return;
+// Detect if the PWA is installed using getInstalledRelatedApps()
+if (navigator.getInstalledRelatedApps) {
+    console.log("found pwa");
+    navigator.getInstalledRelatedApps().then((relatedApps) => {
+      console.log("relatedApps: " + JSON.stringify(relatedApps));
+      console.log("relatedApps.length: " + relatedApps.length);
+      if (relatedApps.length > 0) {
+        console.log("Set text to open");
+        // The PWA is installed
+        installBtn.textContent = 'Open';
+      }
+    });
   }
-
-  // Show prompt
-  promptEvent.prompt();
-
-  // Reset the deferred prompt variable, it can only be used once.
-  window.deferredPrompt = null;
-
-  butInstall.classList.toggle("hidden", true);
-});
-
-window.addEventListener("appinstalled", (event) => {
-  // Clear prompt
-  window.deferredPrompt = null;
-});

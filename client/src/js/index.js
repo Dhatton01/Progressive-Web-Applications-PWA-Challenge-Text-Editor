@@ -1,7 +1,9 @@
 import { Workbox } from 'workbox-window';
 import Editor from './editor';
 import './database';
+import '../js/install.js';
 import '../css/style.css';
+import '../css/erlang-dark.css';
 
 const main = document.querySelector('#main');
 main.innerHTML = '';
@@ -11,7 +13,7 @@ const loadSpinner = () => {
   spinner.classList.add('spinner');
   spinner.innerHTML = `
   <div class="loading-container">
-  <div class="loading-spinner" />
+    <div class="loading-spinner" />
   </div>
   `;
   main.appendChild(spinner);
@@ -26,7 +28,7 @@ if (typeof editor === 'undefined') {
 // Check if service workers are supported
 if ('serviceWorker' in navigator) {
   // register workbox service worker
-  const workboxSW = new Workbox('/src-sw.js');
+  const workboxSW = new Workbox('/sw.js');
   workboxSW.register();
 } else {
   console.error('Service workers are not supported in this browser.');
